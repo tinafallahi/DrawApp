@@ -4,7 +4,7 @@ import java.io.InputStreamReader;
 import java.io.Reader;
 import javax.swing.SwingUtilities;
 
-public class Main
+public class DrawApp
 {
   public static void main(String[] args)
   {
