@@ -1,18 +1,23 @@
 package drawapp;
 
+import java.io.InputStreamReader;
+import java.io.Reader;
 import javafx.application.Application;
+import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 
 public class DrawApp extends Application {
     public static void main(String[] args) { 
-        launch(args); 
+        
     }
-
     @Override
-    public void start(Stage stage)
-    {
-        MainWindow mw=new MainWindow(stage);
-        stage.show();
+        public void start(Stage primaryStage) {
+        MainWindow main = new MainWindow(primaryStage);
+        ImagePanel imagePanel = main.getImagePanel();
+        Reader reader = new InputStreamReader(System.in);
+        Parser parser = new Parser(reader,imagePanel,main);
+        parser.parse();
+        primaryStage.show();
     }
     
 }

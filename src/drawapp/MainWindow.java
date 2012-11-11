@@ -23,7 +23,7 @@ public class MainWindow
   private int height;
   
 
-  private HBox imageRegion = new HBox(); ;
+  private ImagePanel imageRegion = new ImagePanel(DEFAULT_WIDTH,DEFAULT_HEIGHT); ;
   private TextArea textarea=new TextArea();
   private Button closeButton=new Button("Close Window");
   
@@ -80,7 +80,7 @@ public class MainWindow
         return gridpane;
   }
 
-  public HBox getImageRegion()
+  public ImagePanel getImagePanel()
   {
     return imageRegion;
   }

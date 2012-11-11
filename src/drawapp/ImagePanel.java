@@ -1,81 +1,95 @@
+/*
+* To change this template, choose Tools | Templates
+* and open the template in the editor.
+*/
 package drawapp;
-
+/**
+*
+* @author 
+*/
 import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Graphics;
-import java.awt.image.BufferedImage;
-import javax.swing.JPanel;
-
-public class ImagePanel extends JPanel
+import javafx.scene.Group;
+import javafx.scene.layout.HBox;
+import javafx.scene.paint.Paint;
+import javafx.scene.shape.Arc;
+import javafx.scene.shape.Ellipse;
+import javafx.scene.shape.Line;
+import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Text;
+public class ImagePanel extends HBox
 {
-  private BufferedImage image;
-  private Graphics graphics;
-
-  public ImagePanel(int width, int height)
-  {
-    setImageSize(width, height);
-  }
-
-  private void setImageSize(int width, int height)
-  {
-    image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
-    graphics = image.getGraphics();
+private String colourst="00000000";
+private Group graphic=new Group();
+private HBox iView;
+public ImagePanel(int width, int height)
+{
+setImageSize(width, height);
+}
+private void setImageSize(int width, int height)
+{ 
+    this.setMaxSize(width, height);
+    this.getChildren().add(graphic);
     clear(Color.white);
-    setPreferredSize(new Dimension(width, height));
-  }
-
-  @Override
-  protected void paintComponent(Graphics g)
-  {
-    g.setColor(Color.gray);
-    g.fillRect(0, 0, image.getWidth(), image.getHeight());
-    g.drawImage(image,0,0,this);
-  }
-
-  public void setBackgroundColour(Color colour)
-  {
-    graphics.setColor(colour);
-    graphics.fillRect(0, 0, image.getWidth(), image.getHeight());
-    graphics.setColor(Color.black);
-  }
-
-  public void clear(Color colour)
-  {
-    setBackgroundColour(colour);
-  }
-
-  public void setColour(Color colour)
-  {
-    graphics.setColor(colour);
-  }
-
-  public void drawLine(int x1, int y1, int x2, int y2)
-  {
-    graphics.drawLine(x1, y1, x2, y2);
-  }
-
-  public void drawRect(int x1, int y1, int x2, int y2)
-  {
-    graphics.drawRect(x1, y1, x2, y2);
-  }
-
-  public void fillRect(int x1, int y1, int x2, int y2)
-  {
-    graphics.fillRect(x1, y1, x2, y2);
-  }
-
-  public void drawString(int x, int y, String s)
-  {
-    graphics.drawString(s,x,y);
-  }
-
-  public void drawArc(int x, int y, int width, int height, int startAngle, int arcAngle)
-  {
-    graphics.drawArc(x,y,width,height,startAngle,arcAngle);
-  }
-
-  public void drawOval(int x, int y, int width, int height)
-  {
-    graphics.drawOval(x,y,width,height);
-  }
+}
+public void setBackgroundColour(Color colour){
+    int red = colour.getRed();
+    int green = colour.getGreen();
+    int blue = colour.getBlue();
+    String hex = String.format("#%02x%02x%02x", red, green, blue);
+    this.setStyle("-fx-fill:#"+hex+";");
+}
+public void clear(Color colour)
+{
+setBackgroundColour(colour);
+}
+public void setColour(Color colour)
+{
+       int red = colour.getRed();
+       int green = colour.getGreen();
+       int blue = colour.getBlue();
+       String hex = String.format("#%02x%02x%02x", red, green, blue);
+       colourst=hex;
+}
+public void drawLine(int x1, int y1, int x2, int y2)
+{
+Line line = new Line(x1,y1,x2,y2);
+line.setStroke(Paint.valueOf(colourst));
+graphic.getChildren().add(line);
+colourst="000000";
+}
+public void drawRect(int x1, int y1, int x2, int y2)
+{
+Rectangle rect = new Rectangle(x1,y1,x2,y2);
+rect.setStroke(Paint.valueOf("000000"));
+rect.setFill(Paint.valueOf("00000000"));
+graphic.getChildren().add(rect);
+}
+public void fillRect(int x1, int y1, int x2, int y2)
+{
+Rectangle rectFill = new Rectangle(x1,y1,x2,y2);
+rectFill.setFill(Paint.valueOf(colourst));
+graphic.getChildren().add(rectFill);
+colourst="000000";
+}
+public void drawString(int x, int y, String s)
+{
+Text t = new Text(x,y,s);
+graphic.getChildren().add(t);
+}
+public void drawArc(int x, int y, int width, int height, int startAngle, int arcAngle)
+{
+Arc arc = new Arc(x,y,width/2,height/2,startAngle,arcAngle);
+arc.setStroke(Paint.valueOf("000000"));
+arc.setFill(Paint.valueOf(colourst));
+graphic.getChildren().add(arc);
+colourst="00000000";
+}
+public void drawOval(int x, int y, int width, int height)
+{
+Ellipse oval = new Ellipse(x,y,width,height);
+oval.setStroke(Paint.valueOf("000000"));
+oval.setFill(Paint.valueOf(colourst));
+graphic.getChildren().add(oval);
+colourst="00000000";
+}
 }
