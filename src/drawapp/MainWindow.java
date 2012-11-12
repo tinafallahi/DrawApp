@@ -18,14 +18,15 @@ public class MainWindow
 {
   public static final int DEFAULT_WIDTH = 600;
   public static final int DEFAULT_HEIGHT = 600;
+  public static int LINECOUNTER = 0;
 
   private int width;
   private int height;
-  
 
   private ImagePanel imageRegion = new ImagePanel(DEFAULT_WIDTH,DEFAULT_HEIGHT); ;
   private TextArea textarea=new TextArea();
   private Button closeButton=new Button("Close Window");
+  private Button nextButton=new Button("Next Step");
   
   public MainWindow(Stage stage)
   {
@@ -73,8 +74,10 @@ public class MainWindow
             public void handle(ActionEvent event) {
                 Platform.exit();
             }
-        }); 
+        });
+        
         pictureRegion2.getChildren().add(closeButton);
+        pictureRegion2.getChildren().add(nextButton);
         gridpane.add(pictureRegion2, 0, 2);
         
         return gridpane;
@@ -83,6 +86,11 @@ public class MainWindow
   public ImagePanel getImagePanel()
   {
     return imageRegion;
+  }
+  
+  public Button nextButton()
+  {
+      return nextButton;
   }
 
   public void postMessage(final String s)

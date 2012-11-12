@@ -18,7 +18,7 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 public class ImagePanel extends HBox
 {
-private String colourst="00000000";
+private String colourst="000000";
 private Group graphic=new Group();
 private HBox iView;
 public ImagePanel(int width, int height)
@@ -79,17 +79,17 @@ graphic.getChildren().add(t);
 public void drawArc(int x, int y, int width, int height, int startAngle, int arcAngle)
 {
 Arc arc = new Arc(x,y,width/2,height/2,startAngle,arcAngle);
-arc.setStroke(Paint.valueOf("000000"));
-arc.setFill(Paint.valueOf(colourst));
+arc.setStroke(Paint.valueOf(colourst));
+arc.setFill(Paint.valueOf("00000000"));
 graphic.getChildren().add(arc);
-colourst="00000000";
+colourst="000000";
 }
 public void drawOval(int x, int y, int width, int height)
 {
 Ellipse oval = new Ellipse(x,y,width,height);
-oval.setStroke(Paint.valueOf("000000"));
-oval.setFill(Paint.valueOf(colourst));
+oval.setStroke(Paint.valueOf(colourst));
+oval.setFill(Paint.valueOf("00000000"));
 graphic.getChildren().add(oval);
-colourst="00000000";
+colourst="000000";
 }
 }
