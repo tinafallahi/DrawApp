@@ -1,16 +1,14 @@
 package drawapp;
 
-import java.awt.Color;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.Reader;
 import java.util.ArrayList;
 import java.util.StringTokenizer;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.Button;
+import javafx.scene.paint.Color;
 
 public class Parser
 {
@@ -53,6 +51,7 @@ public class Parser
   
   private void parseLine(String line) throws ParseException
   {
+    
     if (line.length() < 2) {
           return;
       }
@@ -64,19 +63,37 @@ public class Parser
     if (command.equals("DS")) { drawString(line.substring(3, line.length())); return; }
     if (command.equals("DA")) { drawArc(line.substring(2, line.length())); return; }
     if (command.equals("DO")) { drawOval(line.substring(2, line.length())); return; }
-    if (command.equals("DI")) { return; }
+    if (command.equals("DI")) { drawImage(line.substring(3, line.length()));return; }
+    if (command.equals("SG")) { setGradient(line.substring(2,line.length())); return; }
+    if (command.equals("SB")) { setBlur(); return;}
+    if (command.equals("SR")) { setReflection(); return;}
+    if (command.equals("SS")) { setDropShadow(); return;}
 
     throw new ParseException("Unknown drawing command");
   }
-
+  
   private void drawImage (String args) throws ParseException 
   {
-      int x1 = 0;
-      int y1 = 0;
-      int width=0;
-      int height = 0;
+      int x = -1;
+      int y = -1;
+      int width=-1;
+      int height = -1;
       String file="";
+      
       StringTokenizer tokenizer = new StringTokenizer(args);
+      x = getInteger(tokenizer);
+      y = getInteger(tokenizer);
+      width = getInteger(tokenizer);
+      height = getInteger(tokenizer);
+      int position = args.indexOf("@");
+      if (position == -1) {
+          throw new ParseException("DrawString string is missing");
+      }
+      file = args.substring(position+1,args.length());
+      
+      if((x<0)||(y<0)||(width<0)||(height<0)) throw new ParseException ("Invalid values for the draw image command.");
+      
+      image.drawImage(x, y, width, height, file);
   }
   
   private void drawLine(String args) throws ParseException
@@ -195,20 +212,64 @@ public class Parser
 
   private void setColour(String colourName) throws ParseException
   {
-    if (colourName.equals("black")) { image.setColour(Color.black); return;}
-    if (colourName.equals("blue")) { image.setColour(Color.blue); return;}
-    if (colourName.equals("cyan")) { image.setColour(Color.cyan); return;}
-    if (colourName.equals("darkgray")) { image.setColour(Color.darkGray); return;}
-    if (colourName.equals("gray")) { image.setColour(Color.gray); return;}
-    if (colourName.equals("green")) { image.setColour(Color.green); return;}
-    if (colourName.equals("lightgray")) { image.setColour(Color.lightGray); return;}
-    if (colourName.equals("magenta")) { image.setColour(Color.magenta); return;}
-    if (colourName.equals("orange")) { image.setColour(Color.orange); return;}
-    if (colourName.equals("pink")) { image.setColour(Color.pink); return;}
-    if (colourName.equals("red")) { image.setColour(Color.red); return;}
-    if (colourName.equals("white")) { image.setColour(Color.white); return;}
-    if (colourName.equals("yellow")) { image.setColour(Color.yellow); return;}
+    if (colourName.equals("black")) { image.setColour(Color.BLACK); return;}
+    if (colourName.equals("blue")) { image.setColour(Color.BLUE); return;}
+    if (colourName.equals("cyan")) { image.setColour(Color.CYAN); return;}
+    if (colourName.equals("darkgray")) { image.setColour(Color.DARKGREY); return;}
+    if (colourName.equals("gray")) { image.setColour(Color.GRAY); return;}
+    if (colourName.equals("green")) { image.setColour(Color.GREEN); return;}
+    if (colourName.equals("lightgray")) { image.setColour(Color.LIGHTGRAY); return;}
+    if (colourName.equals("magenta")) { image.setColour(Color.MAGENTA); return;}
+    if (colourName.equals("orange")) { image.setColour(Color.ORANGE); return;}
+    if (colourName.equals("pink")) { image.setColour(Color.PINK); return;}
+    if (colourName.equals("red")) { image.setColour(Color.RED); return;}
+    if (colourName.equals("white")) { image.setColour(Color.WHITE); return;}
+    if (colourName.equals("yellow")) { image.setColour(Color.YELLOW); return;}
     throw new ParseException("Invalid colour name");
+  }
+  
+  private void setBlur(){
+      image.setBlur();
+  }
+  
+  private void setReflection(){
+      image.setReflection();
+  }
+  
+  private void setDropShadow(){
+      image.setDropShadow();
+  }
+  
+  private Color getColour(String colourName) throws ParseException 
+  {
+    if (colourName.equals("black")) { return Color.BLACK;}
+    if (colourName.equals("blue")) { return Color.BLUE;}
+    if (colourName.equals("cyan")) { return Color.CYAN;}
+    if (colourName.equals("darkgray")) { return Color.DARKGREY;}
+    if (colourName.equals("gray")) { return Color.GRAY;}
+    if (colourName.equals("green")) { return Color.GREEN;}
+    if (colourName.equals("lightgray")) { return Color.LIGHTGRAY;}
+    if (colourName.equals("magenta")) { return Color.MAGENTA;}
+    if (colourName.equals("orange")) { return Color.ORANGE;}
+    if (colourName.equals("pink")) { return Color.PINK;}
+    if (colourName.equals("red")) { return Color.RED;}
+    if (colourName.equals("white")) { return Color.WHITE;}
+    if (colourName.equals("yellow")) { return Color.YELLOW;}
+    throw new ParseException("Invalid colour name");
+  }
+  
+  private void setGradient(String args) throws ParseException
+  {
+    String colourStart="";
+    String colourEnd="";
+    int position1 = args.indexOf("@");
+    int position2 = args.indexOf("!");
+    if ((position1 == -1)||(position2 == -1)) {
+          throw new ParseException("DrawString string is missing");
+      }
+    colourStart = args.substring(position1+1,position2-1);
+    colourEnd = args.substring(position2+1,args.length());
+    image.setGradient(getColour(colourStart),getColour(colourEnd));
   }
 
   private int getInteger(StringTokenizer tokenizer) throws ParseException
@@ -221,7 +282,7 @@ public class Parser
       }
   }
   
-  public void parseButton(final Button b) throws IOException
+  public void parseButton(final Button next,final Button complete) throws IOException
 {
     String line = reader.readLine();
     final ArrayList<String> asl=new ArrayList<String>();
@@ -230,7 +291,7 @@ public class Parser
         asl.add(line);
         line = reader.readLine();
     }
-    b.setOnAction(new EventHandler<ActionEvent>() 
+    next.setOnAction(new EventHandler<ActionEvent>() 
     {
         public void handle(ActionEvent event) 
         {
@@ -238,12 +299,37 @@ public class Parser
             {
                 parseLine(asl.get(i));
                 i++;
+                frame.postMessage("Next Step Completed!!");
                 if(i==asl.size()){
-                    b.setDisable(true);
+                    next.setDisable(true);
+                    frame.postMessage("Drawing Completed!!");
                 }
-            } catch (ParseException ex) { 
-                Logger.getLogger(Parser.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (ParseException e) { 
+                frame.postMessage("Parse Exception: " + e.getMessage());
             } 
+        }
+    });
+    complete.setOnAction(new EventHandler<ActionEvent>() 
+    {
+        public void handle(ActionEvent event) 
+        {
+            try
+    {
+      while (i<asl.size())
+      {
+        parseLine(asl.get(i));
+        i++;
+        if(i==asl.size()){
+                    complete.setDisable(true);
+                    next.setDisable(true);
+                    frame.postMessage("Drawing Completed!!");
+                }
+      }
+    }
+    catch (ParseException e)
+    {
+      frame.postMessage("Parse Exception: " + e.getMessage());
+    }
         }
     });
     }

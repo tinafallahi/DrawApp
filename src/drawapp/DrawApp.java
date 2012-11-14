@@ -17,10 +17,12 @@ public class DrawApp extends Application {
         ImagePanel imagePanel = main.getImagePanel();
         Reader reader = new InputStreamReader(System.in);
         Parser parser = new Parser(reader,imagePanel,main);
-        //parser.parse();
+        
         Button next = new Button();
+        Button complete = new Button();
+        complete = main.completeButton();
         next = main.nextButton();
-        parser.parseButton(next);
+        parser.parseButton(next,complete);
         primaryStage.show();
     }
     
