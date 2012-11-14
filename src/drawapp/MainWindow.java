@@ -28,8 +28,9 @@ public class MainWindow
   private int width;
   private int height;
 
-  private ImagePanel imageRegion = new ImagePanel(IMAGEWIDTH,IMAGEHEIGHT+200); ;
+  private ImagePanel imageRegion = new ImagePanel(IMAGEWIDTH,IMAGEHEIGHT+200); 
   private TextArea textarea=new TextArea();
+  private HBox pictureRegion2 = new HBox();
   private Button closeButton=new Button("Close Window");
   private Button nextButton=new Button("Next Step");
   private Button completeButton=new Button("Complete Drawing");
@@ -70,8 +71,7 @@ public class MainWindow
       imageRegion.setPrefWidth(IMAGEWIDTH);
       imageRegion.setPrefHeight(IMAGEHEIGHT);
       gridpane.add(imageRegion, 0, 0);
-        
-      final HBox pictureRegion2 = new HBox(); 
+         
       pictureRegion2.setPrefHeight(50);
       pictureRegion2.setPrefWidth(IMAGEWIDTH);
       pictureRegion2.setAlignment(Pos.CENTER);
@@ -128,5 +128,11 @@ public class MainWindow
   public void postMessage(final String s)
   {
       textarea.setText(s);
+  }
+  public void changeSize(int width,int height){
+      imageRegion.setPrefHeight(height-200);
+      imageRegion.setPrefWidth(width);
+      textarea.setPrefWidth(width);
+      pictureRegion2.setPrefWidth(width);
   }
 }

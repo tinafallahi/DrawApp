@@ -7,22 +7,27 @@ import java.util.ArrayList;
 import java.util.StringTokenizer;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.scene.Group;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.paint.Color;
+import javafx.stage.Stage;
 
 public class Parser
 {
   private BufferedReader reader;
   private ImagePanel image;
   private MainWindow frame;
+  private Stage primaryStage = new Stage();
   private String line;
   private int i=0;
   
-  public Parser(Reader reader, ImagePanel image, MainWindow frame)
+  public Parser(Reader reader, ImagePanel image, MainWindow frame,Stage primaryStage)
   {
     this.reader = new BufferedReader(reader);
     this.image = image;
     this.frame = frame;
+    this.primaryStage = primaryStage;
   }
 
   public void parse()
@@ -56,6 +61,7 @@ public class Parser
           return;
       }
     String command = line.substring(0, 2);
+    if (command.equals("SD")) { setDimension(line.substring(2,line.length())); return;}
     if (command.equals("DL")) { drawLine(line.substring(2,line.length())); return; }
     if (command.equals("DR")) { drawRect(line.substring(2, line.length())); return; }
     if (command.equals("FR")) { fillRect(line.substring(2, line.length())); return; }
@@ -70,6 +76,20 @@ public class Parser
     if (command.equals("SS")) { setDropShadow(); return;}
 
     throw new ParseException("Unknown drawing command");
+  }
+  
+  private void setDimension (String args) throws ParseException
+  {
+      int width=-1;
+      int height = -1;
+      StringTokenizer tokenizer = new StringTokenizer(args);
+      width = getInteger(tokenizer);
+      height = getInteger(tokenizer);
+      if((width<0)||(height<0)) throw new ParseException ("Invalid values for the scene dimension command.");
+      
+      primaryStage.setWidth(width);
+      primaryStage.setHeight(height);
+      frame.changeSize(width,height);
   }
   
   private void drawImage (String args) throws ParseException 
@@ -302,6 +322,7 @@ public class Parser
                 frame.postMessage("Next Step Completed!!");
                 if(i==asl.size()){
                     next.setDisable(true);
+                    complete.setDisable(true);
                     frame.postMessage("Drawing Completed!!");
                 }
             } catch (ParseException e) { 

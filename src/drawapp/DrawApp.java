@@ -16,8 +16,7 @@ public class DrawApp extends Application {
         MainWindow main = new MainWindow(primaryStage);
         ImagePanel imagePanel = main.getImagePanel();
         Reader reader = new InputStreamReader(System.in);
-        Parser parser = new Parser(reader,imagePanel,main);
-        
+        Parser parser = new Parser(reader,imagePanel,main,primaryStage);
         Button next = new Button();
         Button complete = new Button();
         complete = main.completeButton();
