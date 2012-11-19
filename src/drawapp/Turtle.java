@@ -65,7 +65,7 @@ public void penUp()
 {
     this.p=false;
 }
-public void penDown(int x, int y, int r)
+public void penDown()
 {
       this.p=true;
 }

@@ -9,7 +9,7 @@ int main(void)
 	turtleLeft(10);
 	turtleForward(50);
 	penUp();
-	penDown(0,0,90);
+	penDown();
 	turtleForward(100);
   return 0;
 }

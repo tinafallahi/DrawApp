@@ -80,7 +80,7 @@ public class Parser
     if (command.equals("TL")) { turnLeft(line.substring(2, line.length())); return; }
     if (command.equals("TR")) { turnRight(line.substring(2, line.length())); return; }
     if (command.equals("PU")) { penUp(); return; }
-    if (command.equals("PD")) { penDown(line.substring(2, line.length())); return; }
+    if (command.equals("PD")) { penDown(); return; }
 
     throw new ParseException("Unknown drawing command");
   }
@@ -89,16 +89,8 @@ public class Parser
       turtle.penUp();
   }
   
-  private void penDown(String args) throws ParseException{
-      int x = -1;
-      int y = -1;
-      int r=-1;
-      StringTokenizer tokenizer = new StringTokenizer(args);
-      x = getInteger(tokenizer);
-      y = getInteger(tokenizer);
-      r = getInteger(tokenizer);
-      if ((x < 0)||(y<0)) throw new ParseException("Invalid turning values");
-      turtle.penDown(x,y,r);
+  private void penDown() throws ParseException{
+      turtle.penDown();
   }
   private void turnRight(String args) throws ParseException
   {

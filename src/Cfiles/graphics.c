@@ -130,6 +130,6 @@ void turtleRight(int r){
 void penUp(){
 	printf("PU\n");
 }
-void penDown(int x,int y, int r){
-	printf("PD %i %i %i\n", x,y,r);
+void penDown(){
+	printf("PD\n");
 }
