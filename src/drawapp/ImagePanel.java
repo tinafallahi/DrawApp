@@ -2,6 +2,7 @@ package drawapp;
 
 import java.io.File;
 import javafx.scene.Group;
+import javafx.scene.Node;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.effect.GaussianBlur;
 import javafx.scene.effect.Reflection;
@@ -36,6 +37,10 @@ public class ImagePanel extends HBox
         this.setMaxSize(width, height);
         this.getChildren().add(graphic);
         clear(Color.WHITE);
+    }
+    public void add(Node g) 
+    {
+        this.getChildren().add(g);
     }
     public void setBackgroundColour(Color colour)
     {
@@ -78,7 +83,8 @@ public class ImagePanel extends HBox
             line.setEffect(reflectionE);
         }
                 graphic.getChildren().add(line);
-
+        gaussianBlur=false;
+        reflection=false;
     }
     public void drawRect(int x1, int y1, int x2, int y2)
     {
@@ -94,7 +100,8 @@ public class ImagePanel extends HBox
             rect.setEffect(reflectionE);
         }
                 graphic.getChildren().add(rect);
-
+        gaussianBlur=false;
+        reflection=false;
     }
     public void fillRect(int x1, int y1, int x2, int y2)
     {
@@ -110,7 +117,8 @@ public class ImagePanel extends HBox
             rectFill.setEffect(reflectionE);
         }
                 graphic.getChildren().add(rectFill);
-
+        gaussianBlur=false;
+        reflection=false;
     }
     public void drawString(int x, int y, String s)
     {
@@ -128,7 +136,8 @@ public class ImagePanel extends HBox
             t.setEffect(reflectionE);
         }
                 graphic.getChildren().add(t);
-
+        gaussianBlur=false;
+        reflection=false;
     }
     public void drawArc(int x, int y, int width, int height, int startAngle, int arcAngle)
     {
@@ -145,6 +154,8 @@ public class ImagePanel extends HBox
             arc.setEffect(reflectionE);
         }
         graphic.getChildren().add(arc);
+        gaussianBlur=false;
+        reflection=false;
     }
     public void drawOval(int x, int y, int width, int height)
     {
@@ -161,6 +172,8 @@ public class ImagePanel extends HBox
             oval.setEffect(reflectionE);
         }
         graphic.getChildren().add(oval);
+        gaussianBlur=false;
+        reflection=false;
     }
     public void drawImage(int x, int y, int width, int height, String path) {
          File file = new File(path);
@@ -168,6 +181,8 @@ public class ImagePanel extends HBox
          ImageView iv = new ImageView(image);
          iv.setFitWidth(width);
          iv.setFitHeight(height);
+         iv.setTranslateX(x);
+         iv.setTranslateY(y);
          iv.setPreserveRatio(true);
          iv.setSmooth(true);
          iv.setCache(true);
@@ -180,5 +195,7 @@ public class ImagePanel extends HBox
             iv.setEffect(reflectionE);
         }
          graphic.getChildren().add(iv);
+         gaussianBlur=false;
+        reflection=false;
     }
 }

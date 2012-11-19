@@ -20,6 +20,7 @@ public class Parser
   private MainWindow frame;
   private Stage primaryStage = new Stage();
   private String line;
+  private Turtle turtle;
   private int i=0;
   
   public Parser(Reader reader, ImagePanel image, MainWindow frame,Stage primaryStage)
@@ -74,8 +75,69 @@ public class Parser
     if (command.equals("SB")) { setBlur(); return;}
     if (command.equals("SR")) { setReflection(); return;}
     if (command.equals("SS")) { setDropShadow(); return;}
+    if (command.equals("ST")) { startTurtle(line.substring(2, line.length())); return; }
+    if (command.equals("FT")) { forward(line.substring(2, line.length())); return; }
+    if (command.equals("TL")) { turnLeft(line.substring(2, line.length())); return; }
+    if (command.equals("TR")) { turnRight(line.substring(2, line.length())); return; }
+    if (command.equals("PU")) { penUp(); return; }
+    if (command.equals("PD")) { penDown(line.substring(2, line.length())); return; }
 
     throw new ParseException("Unknown drawing command");
+  }
+  
+  private void penUp() throws ParseException{
+      turtle.penUp();
+  }
+  
+  private void penDown(String args) throws ParseException{
+      int x = -1;
+      int y = -1;
+      int r=-1;
+      StringTokenizer tokenizer = new StringTokenizer(args);
+      x = getInteger(tokenizer);
+      y = getInteger(tokenizer);
+      r = getInteger(tokenizer);
+      if ((x < 0)||(y<0)) throw new ParseException("Invalid turning values");
+      turtle.penDown(x,y,r);
+  }
+  private void turnRight(String args) throws ParseException
+  {
+    int r = -1;
+    StringTokenizer tokenizer = new StringTokenizer(args);
+    r = getInteger(tokenizer);
+    if (r < 0) throw new ParseException("Invalid turning values");
+    turtle.turnRight(r);
+  }
+  
+   private void turnLeft(String args) throws ParseException
+  {
+    int r = -1;
+    StringTokenizer tokenizer = new StringTokenizer(args);
+    r = getInteger(tokenizer);
+    if (r < 0) throw new ParseException("Invalid turning values");
+    turtle.turnLeft(r);
+  }
+  
+  private void forward(String args) throws ParseException
+  {
+    int d = -1;
+    StringTokenizer tokenizer = new StringTokenizer(args);
+    d = getInteger(tokenizer);
+    if (d < 0) throw new ParseException("Invalid values for Line command");
+    turtle.forward(d);
+  }
+  
+  private void startTurtle(String args) throws ParseException
+  {
+    int x1 = -1;
+    int y1 = -1;
+    int r = -1;
+    StringTokenizer tokenizer = new StringTokenizer(args);
+    x1 = getInteger(tokenizer);
+    y1 = getInteger(tokenizer);
+    r = getInteger(tokenizer);
+    if ((x1 < 0)||(y1 < 0)||(r < 0)) throw new ParseException("Invalid values for Line command");
+    turtle = new Turtle(image,x1,y1,r);
   }
   
   private void setDimension (String args) throws ParseException

@@ -28,9 +28,9 @@ public class MainWindow
   private int width;
   private int height;
 
-  private ImagePanel imageRegion = new ImagePanel(IMAGEWIDTH,IMAGEHEIGHT+200); 
+  private ImagePanel imagePanel = new ImagePanel(IMAGEWIDTH,IMAGEHEIGHT+200); 
   private TextArea textarea=new TextArea();
-  private HBox pictureRegion2 = new HBox();
+  private HBox pictureRegion = new HBox();
   private Button closeButton=new Button("Close Window");
   private Button nextButton=new Button("Next Step");
   private Button completeButton=new Button("Complete Drawing");
@@ -67,15 +67,15 @@ public class MainWindow
       + "-fx-border-width: 0;\n";
       textarea.setText("Scene Ready!"); 
       // Border decorate the picture 
-      imageRegion.setStyle(cssDefault); 
-      imageRegion.setPrefWidth(IMAGEWIDTH);
-      imageRegion.setPrefHeight(IMAGEHEIGHT);
-      gridpane.add(imageRegion, 0, 0);
+      imagePanel.setStyle(cssDefault); 
+      imagePanel.setPrefWidth(IMAGEWIDTH);
+      imagePanel.setPrefHeight(IMAGEHEIGHT);
+      gridpane.add(imagePanel, 0, 0);
          
-      pictureRegion2.setPrefHeight(50);
-      pictureRegion2.setPrefWidth(IMAGEWIDTH);
-      pictureRegion2.setAlignment(Pos.CENTER);
-      pictureRegion2.setStyle("-fx-background-color: #E8E8E8");
+      pictureRegion.setPrefHeight(50);
+      pictureRegion.setPrefWidth(IMAGEWIDTH);
+      pictureRegion.setAlignment(Pos.CENTER);
+      pictureRegion.setStyle("-fx-background-color: #E8E8E8");
         
       closeButton.setOnAction(new EventHandler<ActionEvent>() { 
         @Override
@@ -90,7 +90,7 @@ public class MainWindow
               try {
                   ImageIO.write(
                   SwingFXUtils.fromFXImage(
-                  imageRegion.snapshot(null, null), null
+                  imagePanel.snapshot(null, null), null
                   ),
                   "png",
                   new File("DrawApp.png")
@@ -101,18 +101,18 @@ public class MainWindow
         }
       });
         
-      pictureRegion2.getChildren().add(closeButton);
-      pictureRegion2.getChildren().add(nextButton);
-      pictureRegion2.getChildren().add(completeButton);
-      pictureRegion2.getChildren().add(saveButton);
-      gridpane.add(pictureRegion2, 0, 2);
+      pictureRegion.getChildren().add(closeButton);
+      pictureRegion.getChildren().add(nextButton);
+      pictureRegion.getChildren().add(completeButton);
+      pictureRegion.getChildren().add(saveButton);
+      gridpane.add(pictureRegion, 0, 2);
         
       return gridpane;
   }
 
   public ImagePanel getImagePanel()
   {
-      return imageRegion;
+      return imagePanel;
   }
   
   public Button nextButton()
@@ -130,9 +130,9 @@ public class MainWindow
       textarea.setText(s);
   }
   public void changeSize(int width,int height){
-      imageRegion.setPrefHeight(height-200);
-      imageRegion.setPrefWidth(width);
+      imagePanel.setPrefHeight(height-200);
+      imagePanel.setPrefWidth(width);
       textarea.setPrefWidth(width);
-      pictureRegion2.setPrefWidth(width);
+      pictureRegion.setPrefWidth(width);
   }
 }
